@@ -69,6 +69,9 @@ class TextInput:
                 if self.max_string_length != -1:
                     self.text = self.text[:self.max_string_length]
 
+        if self.is_active:
+            self.text_surface = self.font.render(self.text + "|", True,
+                                                 self.text_color)
+        else:
             self.text_surface = self.font.render(self.text, True,
                                                  self.text_color)
-
