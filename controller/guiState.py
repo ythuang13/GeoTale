@@ -88,6 +88,7 @@ class GuiState:
                         btn.button_color = btn.hover_button_color
                     else:
                         btn.button_color = btn.original_button_color
+                        
         # drawing
         self.window.blit(BACKGROUND_SURFACE, (0, 0))
         self.window.blit(MENU_TITLE_SURFACE, (MENU_X, MENU_Y))
