@@ -1,8 +1,8 @@
 class Story:
-    def __init__(self, username, title, upload_path):
+    def __init__(self, username, title, file_path):
         self._username = username
         self._title = title
-        self._upload_path = upload_path
+        self._file_path = file_path
         self._server_path = None
         self._length = None
 
@@ -23,7 +23,7 @@ class Story:
         return self._server_path
 
     def __repr__(self):
-        return f"Story({self._username}, {self._title}, {self._upload_path})"
+        return f"Story({self._username}, {self._title}, {self._file_path})"
 
     def __str__(self):
-        return f"Story:{self._title} by {self._username} @ {self._upload_path}"
+        return f"Story:{self._title} by {self._username} @ {self._file_path}"

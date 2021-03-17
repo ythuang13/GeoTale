@@ -7,13 +7,20 @@ class GeoTale:
         self.geolocator = Nominatim(user_agent="GeoTale")
         self.cache = dict()
 
-    def add_story(self, story: Story) -> None:
+    def add_story(self, username, title, file_path) -> None:
         """
-        Add story from user into database
-        :param story: Object of type Story that have necessary information
+        Add a story of type Story into database with information from user,
+        username, title and file path
+        :param username: Username that upload to the database
+        :param title: Title of the story
+        :param file_path: A file path to the audio file
         :return: None
         """
-        pass
+        story = Story(username, title, file_path)
+
+        # todo check validity before insert in database, maybe check validity in Story class
+        # insert in database
+        # upload file to server
 
     def query_story(self, location) -> list[Story]:
         """
@@ -23,6 +30,16 @@ class GeoTale:
         """
         location = self.geolocator.geocode(location)
         print(location.latitude, location.longitude)
+        # query stories from database
+        # return a list of queried stories
+
+    def download_story(self):
+        # download story from database with story id
+        pass
+
+    def play_story(self):
+        # play story in audio library
+        pass
 
 
 if __name__ == "__main__":
