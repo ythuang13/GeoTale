@@ -1,4 +1,5 @@
 from controller.settings import *
+from controller.geoTale import GeoTale
 import sys
 
 
@@ -7,14 +8,14 @@ class GuiState:
         self.window = window
         self.state = "main_menu"
         self.time_delta = None
+        self.geotale = GeoTale()
 
     def hear_menu(self):
         # events
         mx, my = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                self.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if MAIN_MENU_BTN.is_over((mx, my)):
@@ -44,8 +45,7 @@ class GuiState:
         mx, my = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                self.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if MAIN_MENU_BTN.is_over((mx, my)):
@@ -76,8 +76,7 @@ class GuiState:
         mx, my = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                self.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if ADD_MENU_BTN.is_over((mx, my)):
@@ -111,3 +110,8 @@ class GuiState:
             self.hear_menu()
         elif self.state == "add_menu":
             self.add_menu()
+
+    def quit(self):
+        pygame.quit()
+        self.geotale.quit()
+        sys.exit()

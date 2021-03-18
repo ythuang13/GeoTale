@@ -12,6 +12,9 @@ class GeoTale:
                                           database="geotale")
         self.my_cursor = self.db.cursor(dictionary=True)
 
+    def quit(self):
+        self.db.close()
+
     def add_story(self, zip_code: str, title: str, author: str, file_path: str,
                   description: str = "") -> None or ValueError:
         """

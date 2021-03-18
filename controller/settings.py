@@ -50,11 +50,11 @@ HEAR_UI_GROUP = [MAIN_MENU_BTN, HEAR_ZIP_INPUT]
 ADD_ZIP_INPUT = TextInput(220, 50, 300, 45, text="", font_size=50,
                           max_string_length=5, restriction=string.digits,
                           description="Zip code: ")
-ADD_TITLE_INPUT = TextInput(220, 120, 300, 45, text="", font_size=50,
+ADD_TITLE_INPUT = TextInput(220, 110, 300, 45, text="", font_size=50,
                             max_string_length=-1, description="Title: ")
-ADD_AUTHOR_INPUT = TextInput(220, 190, 300, 45, text="", font_size=50,
+ADD_AUTHOR_INPUT = TextInput(220, 170, 300, 45, text="", font_size=50,
                              max_string_length=-1, description="Author: ")
-ADD_DESC_INPUT = TextInput(220, 260, 300, 45, text="", font_size=50,
+ADD_DESC_INPUT = TextInput(220, 230, 300, 45, text="", font_size=50,
                            max_string_length=-1, description="Description: ")
 ADD_UI_GROUP = [MAIN_MENU_BTN, ADD_ZIP_INPUT, ADD_TITLE_INPUT,
                 ADD_AUTHOR_INPUT, ADD_DESC_INPUT]
