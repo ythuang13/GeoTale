@@ -6,7 +6,7 @@ class TextInput:
                  field_color=(255, 255, 255), active_color=(245, 245, 245),
                  is_active=False, text="", text_color=(0, 0, 0),
                  text_hint="", font=None, font_size=35, max_string_length=-1,
-                 restriction=None):
+                 restriction=None, description=None):
         self.image = pygame.Surface((width, height))
         self.image.fill(field_color)
         self.rect = self.image.get_rect()
@@ -21,7 +21,10 @@ class TextInput:
         self.font = pygame.font.SysFont(font, font_size)
         self.max_string_length = max_string_length
         self.restriction = restriction
+        self.description = description
 
+        self.desc_surface = self.font.render(self.description,
+                                             True, self.text_color)
         self.text_surface = self.font.render(text, True, self.text_color)
 
     @property
@@ -41,15 +44,23 @@ class TextInput:
         return self.rect.height
 
     def draw(self, win):
+        # draw description
+        win.blit(self.desc_surface,
+                 (self.rect.x - self.desc_surface.get_width(),
+                  self.rect.y + 6))
+
+        # draw input field border
         pygame.draw.rect(win, (0, 0, 0), (self.rect.x - 2, self.rect.y - 2,
                                           self.rect.width + 4,
                                           self.rect.height + 4), 2)
+        # draw input field background
         if self.is_active:
             pygame.draw.rect(win, self.active_color, self.rect)
-            win.blit(self.text_surface, (self.rect.x + 6, self.rect.y + 8))
         else:
             pygame.draw.rect(win, self.field_color, self.rect)
-            win.blit(self.text_surface, (self.rect.x + 6, self.rect.y + 8))
+
+        # draw text
+        win.blit(self.text_surface, (self.rect.x + 6, self.rect.y + 7))
 
     def events_handling(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:

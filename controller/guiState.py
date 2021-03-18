@@ -27,13 +27,14 @@ class GuiState:
                         btn.button_color = btn.hover_button_color
                     else:
                         btn.button_color = btn.original_button_color
-            ZIP_INPUT.events_handling(event)
+
+            HEAR_ZIP_INPUT.events_handling(event)
 
         # drawing
         self.window.blit(BACKGROUND_SURFACE, (0, 0))
-        self.window.blit(ZIP_SURFACE, (50, 50))
-        MAIN_MENU_BTN.draw(self.window)
-        ZIP_INPUT.draw(self.window)
+        # self.window.blit(ZIP_SURFACE, (50, 50))
+        for widget in HEAR_UI_GROUP:
+            widget.draw(self.window)
 
         # final display update
         pygame.display.flip()
@@ -57,10 +58,15 @@ class GuiState:
                         btn.button_color = btn.hover_button_color
                     else:
                         btn.button_color = btn.original_button_color
+            ADD_ZIP_INPUT.events_handling(event)
+            ADD_TITLE_INPUT.events_handling(event)
+            ADD_AUTHOR_INPUT.events_handling(event)
+            ADD_DESC_INPUT.events_handling(event)
 
         # drawing
         self.window.blit(BACKGROUND_SURFACE, (0, 0))
-        MAIN_MENU_BTN.draw(self.window)
+        for widget in ADD_UI_GROUP:
+            widget.draw(self.window)
 
         # final display update
         pygame.display.flip()

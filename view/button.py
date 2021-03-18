@@ -36,12 +36,15 @@ class Button:
         return self.rect.height
 
     def draw(self, win, outline=None):
+        # draw outline
         if outline:
             pygame.draw.rect(win, outline,
                              (self.x - 2, self.y - 2,
-                              self.width + 4, self.height + 4),
-                             0)
+                              self.width + 4, self.height + 4), 0)
+        # draw button color
         pygame.draw.rect(win, self.button_color, self.rect, 0)
+
+        # draw text
         if self.text != "":
             text_surface = self.font.render(self.text, True, self.text_color)
             win.blit(text_surface,

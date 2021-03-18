@@ -77,5 +77,5 @@ class GeoTale:
 if __name__ == "__main__":
     # test for GeoTale
     gt = GeoTale()
-    gt.add_story("92780", "Yeet", "Dan", "None", "LilSkeet")
+    # gt.add_story("92780", "Yeet", "Dan", "None", "LilSkeet")
     gt.query_story("92780")
