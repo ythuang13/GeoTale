@@ -3,6 +3,13 @@ from view.textInput import TextInput
 import string
 import pygame
 
+# socket settings
+HOST = "52.39.77.232"
+PORT = 5555
+HEADER_SIZE = 10
+BUFFER_SIZE = 1024 * 4
+FORMAT = "utf-8"
+
 # gui settings
 CAPTION = "GeoTale"
 SCREEN_WIDTH, SCREEN_HEIGHT = 720, 480
