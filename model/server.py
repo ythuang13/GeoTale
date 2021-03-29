@@ -3,6 +3,7 @@ import socket
 import mysql.connector
 import pickle
 import tqdm
+import os
 
 DB = mysql.connector.connect(host="localhost",
                              port="3306",
@@ -74,6 +75,44 @@ def process_action(conn, indicator, data):
 
                 # update the progress bar
                 progress.update(len(data_chunks))
+    elif indicator == "D":
+        temp = data[0]
+        # todo check filename
+        # check if filename is in directory
+        file_path = f"storage/{temp}.wav"
+        file_size = os.path.getsize(file_path)
+        file_name = os.path.basename(file_path)
+
+        # send file information, file_name and extension, and size
+        d = pickle.dumps(("D", (file_size, file_name)))
+        d = bytes(f"{len(d):<{HEADER_SIZE}}", FORMAT) + d
+        conn.sendall(d)
+
+        # progress bar
+        progress = tqdm.tqdm(range(file_size), f"Sending file {file_name}",
+                             unit="B", unit_scale=True, unit_divisor=1024)
+
+        # send file
+        with open(file_path, "rb") as file:
+            while True:
+                # read the bytes from the file
+                bytes_read = file.read(BUFFER_SIZE)
+                if not bytes_read:
+                    # finish
+                    d = bytes(f"{-1:<{HEADER_SIZE}}", FORMAT)
+                    conn.sendall(d)
+                    break
+
+                d = bytes(f"{len(bytes_read):<{HEADER_SIZE}}", FORMAT) \
+                    + bytes_read
+                conn.sendall(d)
+
+                # receive acknowledgement
+                ack = conn.recv(3)
+
+                # update progress bar
+                progress.update(len(bytes_read))
+
     else:
         print("else")
 

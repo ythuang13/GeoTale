@@ -71,6 +71,49 @@ class Network:
                 # update progress bar
                 progress.update(len(bytes_read))
 
+    def request_file(self, request_data):
+
+        # send indicator with request_data
+        d = pickle.dumps(("D", (request_data, )))
+        d = bytes(f"{len(d):<{HEADER_SIZE}}", FORMAT) + d
+        self.client.sendall(d)
+
+        # receive file data
+        header = self.client.recv(HEADER_SIZE)
+        d = self.client.recv(int(header))
+        data = pickle.loads(d)
+        file_size = int(data[1][0])
+        file_name = data[1][1]
+
+        # progress bar
+        progress = tqdm.tqdm(range(file_size), f"Sending file {file_name}",
+                             unit="B", unit_scale=True, unit_divisor=1024)
+
+        save_file_name = f"..\\tmp\\{file_name}"
+        # receive file
+        with open(save_file_name, "wb") as file:
+            while True:
+                header = self.client.recv(HEADER_SIZE)
+                data_chunks = bytearray()
+                try:
+                    read_size = int(header)
+                except ValueError:
+                    continue
+                if read_size == -1:
+                    break
+
+                while len(data_chunks) < read_size:
+                    data_chunks.extend(self.client.recv(read_size))
+
+                # write to the file the bytes we just received
+                file.write(data_chunks)
+
+                # acknowledgement
+                self.client.sendall(b"200")
+
+                # update the progress bar
+                progress.update(len(data_chunks))
+
 
 def main():
     network = Network(HOST, PORT)
@@ -81,7 +124,8 @@ def main():
     # author = input("author: ")
     # description = input("description: ")
     # path = input("path: ")
-    network.send_file(r"C:\Users\ythua\Desktop\image0.png")
+    # network.send_file(r"C:\Users\ythua\Desktop\image0.png")
+    network.request_file("6")
 
 
 if __name__ == "__main__":
