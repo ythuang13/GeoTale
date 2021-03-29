@@ -52,8 +52,6 @@ def process_action(conn, indicator, data):
         save_file_name = f"storage/{i + 1}.{extension}"
 
         # receive file
-        packet_count = 0
-        total = 0
         with open(save_file_name, "wb") as file:
             while True:
                 header = conn.recv(HEADER_SIZE)
@@ -66,20 +64,16 @@ def process_action(conn, indicator, data):
                     break
 
                 while len(data_chunks) < read_size:
-                    data_chunks.append(conn.recv(read_size))
+                    data_chunks.extend(conn.recv(read_size))
 
                 # write to the file the bytes we just received
-                file.write(b"".join(data_chunks))
+                file.write(data_chunks)
 
                 # acknowledgement
-                packet_count += 1
-                print(packet_count, len(data_chunks))
-                total += len(data_chunks)
                 conn.sendall(b"200")
 
                 # update the progress bar
                 progress.update(len(data_chunks))
-        print(packet_count, total)
     else:
         print("else")
 
