@@ -10,7 +10,7 @@ DB = mysql.connector.connect(host="localhost",
                              user="admin",
                              password="GeoTale21!",
                              database="geotale")
-CURSOR = DB.cursor(dictionary=True)
+CURSOR = DB.cursor(dictionary=True, buffered=True)
 HEADER_SIZE = 10
 BUFFER_SIZE = 1024 * 4
 HOST = "172.31.35.237"
@@ -33,7 +33,14 @@ def process_action(conn, indicator, data):
         zip_code, title, author, description, length = data
 
         # insert into mysql
-        print(zip_code, title, author, length, description)
+        sql = "INSERT INTO story (zip_code, title, author, length," \
+              "description) VALUES (%s, %s, %s, %s, %s)"
+        val = (zip_code, title, author, length, description)
+        CURSOR.execute(sql, val)
+        DB.commit()
+
+        print(val)
+        print(CURSOR.rowcount, "record inserted")
 
         # return status code
         data = pickle.dumps("200")
@@ -49,7 +56,8 @@ def process_action(conn, indicator, data):
 
         # get save file name
         CURSOR.execute("SELECT story_id FROM story ORDER BY story_id DESC")
-        i = CURSOR.fetchone().get("story_id")
+        temp = CURSOR.fetchone()
+        i = temp.get("story_id", 0)
         save_file_name = f"storage/{i + 1}.{extension}"
 
         # receive file
@@ -75,6 +83,9 @@ def process_action(conn, indicator, data):
 
                 # update the progress bar
                 progress.update(len(data_chunks))
+
+        # close progress bar
+        progress.close()
     elif indicator == "D":
         temp = data[0]
         # todo check filename
@@ -112,6 +123,9 @@ def process_action(conn, indicator, data):
 
                 # update progress bar
                 progress.update(len(bytes_read))
+
+        # close progress bar
+        progress.close()
 
     else:
         print("else")

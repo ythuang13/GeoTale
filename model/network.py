@@ -71,6 +71,9 @@ class Network:
                 # update progress bar
                 progress.update(len(bytes_read))
 
+        # close progress
+        progress.close()
+
     def request_file(self, request_data):
 
         # send indicator with request_data
@@ -113,6 +116,9 @@ class Network:
 
                 # update the progress bar
                 progress.update(len(data_chunks))
+
+        # close progress bar
+        progress.close()
 
 
 def main():

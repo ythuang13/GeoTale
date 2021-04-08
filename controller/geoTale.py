@@ -1,19 +1,16 @@
-from geopy.geocoders import Nominatim
-from model.story import Story
-import mysql.connector
+from model.network import Network
+from controller.settings import *
+from tkinter import filedialog
+import tkinter as tk
 
 
 class GeoTale:
     def __init__(self):
-        self.geolocator = Nominatim(user_agent="GeoTale")
         self.cache = dict()
-        self.db = mysql.connector.connect(host="localhost", port="3306",
-                                          user="root", password="root",
-                                          database="geotale")
-        self.my_cursor = self.db.cursor(dictionary=True)
+        self.network = Network(HOST, PORT)
 
     def quit(self):
-        self.db.close()
+        self.network.quit()
 
     def add_story(self, zip_code: str, title: str, author: str, file_path: str,
                   description: str = "") -> None or ValueError:
@@ -27,58 +24,95 @@ class GeoTale:
         :param description: Optional description of the story (len < 128)
         :return: None
         """
-        length = 0
-        # validate data
-        # todo invalid zip code (can only be number)
+        # data validation
+        # todo validate data
         if int(zip_code) < 00000 or int(zip_code) > 99999:
             raise ValueError("Invalid Zip Code")
         if len(title) >= 45:
             raise ValueError("Title too long")
         if len(author) >= 45:
             raise ValueError("Author name too long")
-        # todo check path validity
         if len(description) >= 128:
             raise ValueError("description too long")
+        # todo get length
+        length = 0
+        # todo check path validity
 
-        # insert in database
-        self.my_cursor.execute(
-            "INSERT INTO story (zip_code, title, author, length, description)"
-            " VALUES (%s, %s, %s, %s, %s)",
-            (zip_code, title, author, length, description))
-        self.db.commit()
+        # upload then insert data into database
+        self.network.send_file(file_path)
+        self.network.send(("I", (zip_code, title, author, description,
+                                 length)))
 
-        # upload file to server
-
-    def query_story(self, zipcode) -> list[Story]:
+    def query_story(self, zip_code) -> list:
         """
         Query story based on location and return a list of stories
-        :param zipcode: zipcode of user input
+        :param zip_code: zip code of user input
         :return: A list of stories
         """
-        # location = self.geolocator.geocode(location)
-        # print(location.latitude, location.longitude)
-
         # query stories from database
-        self.my_cursor.execute("SELECT * FROM story WHERE zip_code = %s",
-                               (zipcode, ))
-        result = self.my_cursor.fetchall()
-        for x in result:
-            print(x)
+        result = self.network.send(("Q", zip_code))
 
         # return a list of queried stories
         return result
 
-    def download_story(self):
+    def download_story(self, song_id: int) -> None:
         # download story from database with story id
+        download_path = ""
+        self.network.request_file(song_id)
+
+        # play the recently download audio
+        # self.play_story(download_path)
+
+    def play_story(self, path) -> None:
+        # play story in pygame
         pass
 
-    def play_story(self):
-        # play story in audio library
-        pass
+    def demo_play_story(self, song_id):
+        self.download_story(song_id)
+
+    def demo_hear(self):
+        zip_code = input("Zip code: ")
+        stories_query = self.query_story(zip_code)
+        for story in stories_query:
+            print(story)
+        if stories_query:
+            song_id = int(input("Pick your song id (-1 to skip): "))
+            if song_id == -1:
+                return
+            else:
+                self.download_story(song_id)
+        else:
+            print("No story found")
+
+    def demo_add(self):
+        zip_code = input("Zip code: ")
+        title = input("Title: ")
+        author = input("Author: ")
+        description = input("Description (optional): ")
+
+        root = tk.Tk()
+        root.withdraw()
+        file_path = filedialog.askopenfilename()
+
+        # insert story into database and upload audio file
+        self.add_story(zip_code, title, author, file_path, description)
+
+    def demo(self):
+        choice = input("(H)ear, (A)dd a story or (Q)uit: ")
+        run = True
+        while run:
+            if choice == "H":
+                self.demo_hear()
+            elif choice == "A":
+                self.demo_add()
+            elif choice == "Q":
+                print("Bye!")
+                break
+
+            choice = input("(H)ear, (A)dd a story or (Q)uit: ")
 
 
 if __name__ == "__main__":
     # test for GeoTale
     gt = GeoTale()
-    # gt.add_story("92780", "Yeet", "Dan", "None", "LilSkeet")
-    gt.query_story("92780")
+    gt.demo()
