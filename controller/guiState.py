@@ -22,12 +22,20 @@ class GuiState:
                         MAIN_MENU_BTN.button_color = \
                             MAIN_MENU_BTN.original_button_color
                         self.state = "main_menu"
+                    elif HEAR_SUBMIT_BTN.is_over((mx, my)):
+                        self.hear_submit()
             if event.type == pygame.MOUSEMOTION:
                 for btn in BTN_GROUP:
                     if btn.is_over((mx, my)):
                         btn.button_color = btn.hover_button_color
                     else:
                         btn.button_color = btn.original_button_color
+                if HEAR_SUBMIT_BTN.is_over((mx, my)):
+                    HEAR_SUBMIT_BTN.button_color = \
+                        HEAR_SUBMIT_BTN.hover_button_color
+                else:
+                    HEAR_SUBMIT_BTN.button_color = \
+                        HEAR_SUBMIT_BTN.original_button_color
 
             HEAR_ZIP_INPUT.events_handling(event)
 
@@ -39,6 +47,14 @@ class GuiState:
 
         # final display update
         pygame.display.flip()
+
+    def hear_submit(self) -> None:
+        """
+        Handle submit function for the hear screen.
+        Pull information from input fields and submit.
+        :return: None
+        """
+        print("hear submit press")
 
     def add_menu(self):
         # events
@@ -52,12 +68,21 @@ class GuiState:
                         MAIN_MENU_BTN.button_color = \
                             MAIN_MENU_BTN.original_button_color
                         self.state = "main_menu"
+                    elif ADD_SUBMIT_BTN.is_over((mx, my)):
+                        self.add_submit()
             if event.type == pygame.MOUSEMOTION:
                 for btn in BTN_GROUP:
                     if btn.is_over((mx, my)):
                         btn.button_color = btn.hover_button_color
                     else:
                         btn.button_color = btn.original_button_color
+                if ADD_SUBMIT_BTN.is_over((mx, my)):
+                    ADD_SUBMIT_BTN.button_color = \
+                        ADD_SUBMIT_BTN.hover_button_color
+                else:
+                    ADD_SUBMIT_BTN.button_color = \
+                        ADD_SUBMIT_BTN.original_button_color
+
             ADD_ZIP_INPUT.events_handling(event)
             ADD_TITLE_INPUT.events_handling(event)
             ADD_AUTHOR_INPUT.events_handling(event)
@@ -70,6 +95,14 @@ class GuiState:
 
         # final display update
         pygame.display.flip()
+
+    def add_submit(self) -> None:
+        """
+        Handle submit function for the add screen.
+        Pull information from input fields and submit
+        :return: None
+        """
+        print("add submit press")
 
     def main_menu(self):
         # events

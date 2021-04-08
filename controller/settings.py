@@ -51,7 +51,9 @@ BTN_GROUP = [ADD_MENU_BTN, HEAR_MENU_BTN, MAIN_MENU_BTN]
 HEAR_ZIP_INPUT = TextInput(205, 50, 300, 50, text="", font_size=50,
                            max_string_length=5, restriction=string.digits,
                            description="Zip code: ")
-HEAR_UI_GROUP = [MAIN_MENU_BTN, HEAR_ZIP_INPUT]
+HEAR_SUBMIT_BTN = Button(575, 75, 120, 50, LIGHT_BLUE, SKY_BLUE, text="Submit",
+                         font=FONT_CHOICE)
+HEAR_UI_GROUP = [MAIN_MENU_BTN, HEAR_ZIP_INPUT, HEAR_SUBMIT_BTN]
 
 # add menu
 ADD_ZIP_INPUT = TextInput(220, 50, 300, 45, text="", font_size=50,
@@ -63,5 +65,10 @@ ADD_AUTHOR_INPUT = TextInput(220, 170, 300, 45, text="", font_size=50,
                              max_string_length=-1, description="Author: ")
 ADD_DESC_INPUT = TextInput(220, 230, 300, 45, text="", font_size=50,
                            max_string_length=-1, description="Description: ")
+ADD_FILE_INPUT = TextInput(220, 290, 300, 45, text="", font_size=50,
+                           max_string_length=-1, description="File: ")
+ADD_SUBMIT_BTN = Button(350, 400, 150, 50, LIGHT_BLUE, SKY_BLUE, text="Submit",
+                        font=FONT_CHOICE)
 ADD_UI_GROUP = [MAIN_MENU_BTN, ADD_ZIP_INPUT, ADD_TITLE_INPUT,
-                ADD_AUTHOR_INPUT, ADD_DESC_INPUT]
+                ADD_AUTHOR_INPUT, ADD_DESC_INPUT, ADD_FILE_INPUT,
+                ADD_SUBMIT_BTN]
