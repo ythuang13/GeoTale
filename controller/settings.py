@@ -67,8 +67,11 @@ ADD_DESC_INPUT = TextInput(220, 230, 300, 45, text="", font_size=50,
                            max_string_length=-1, description="Description: ")
 ADD_FILE_INPUT = TextInput(220, 290, 300, 45, text="", font_size=50,
                            max_string_length=-1, description="File: ")
+# todo add file selection button
+ADD_FILE_BTN = Button(560, 315, 50, 35, LIGHT_BLUE, SKY_BLUE,
+                      text="...", font=FONT_CHOICE)
 ADD_SUBMIT_BTN = Button(350, 400, 150, 50, LIGHT_BLUE, SKY_BLUE, text="Submit",
                         font=FONT_CHOICE)
 ADD_UI_GROUP = [MAIN_MENU_BTN, ADD_ZIP_INPUT, ADD_TITLE_INPUT,
                 ADD_AUTHOR_INPUT, ADD_DESC_INPUT, ADD_FILE_INPUT,
-                ADD_SUBMIT_BTN]
+                ADD_SUBMIT_BTN, ADD_FILE_BTN]

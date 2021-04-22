@@ -1,5 +1,7 @@
 from controller.settings import *
 from controller.geoTale import GeoTale
+from tkinter.filedialog import askopenfilename
+import tkinter
 import sys
 
 
@@ -70,6 +72,8 @@ class GuiState:
                         self.state = "main_menu"
                     elif ADD_SUBMIT_BTN.is_over((mx, my)):
                         self.add_submit()
+                    elif ADD_FILE_BTN.is_over((mx, my)):
+                        self.add_file_selection()
             if event.type == pygame.MOUSEMOTION:
                 for btn in BTN_GROUP:
                     if btn.is_over((mx, my)):
@@ -82,11 +86,18 @@ class GuiState:
                 else:
                     ADD_SUBMIT_BTN.button_color = \
                         ADD_SUBMIT_BTN.original_button_color
+                if ADD_FILE_BTN.is_over((mx, my)):
+                    ADD_FILE_BTN.button_color = \
+                        ADD_FILE_BTN.hover_button_color
+                else:
+                    ADD_FILE_BTN.button_color = \
+                        ADD_FILE_BTN.original_button_color
 
             ADD_ZIP_INPUT.events_handling(event)
             ADD_TITLE_INPUT.events_handling(event)
             ADD_AUTHOR_INPUT.events_handling(event)
             ADD_DESC_INPUT.events_handling(event)
+            ADD_FILE_INPUT.events_handling(event)
 
         # drawing
         self.window.blit(BACKGROUND_SURFACE, (0, 0))
@@ -102,7 +113,16 @@ class GuiState:
         Pull information from input fields and submit
         :return: None
         """
-        print("add submit press")
+        # get input
+        zip_input = ADD_ZIP_INPUT.text
+        title_input = ADD_TITLE_INPUT.text
+        author_input = ADD_AUTHOR_INPUT.text
+        description_input = ADD_DESC_INPUT.text
+        file_input = ADD_FILE_INPUT.text
+
+        # delete
+        print(zip_input, title_input, author_input,
+              description_input, file_input)
 
     def main_menu(self):
         # events
@@ -126,7 +146,7 @@ class GuiState:
                         btn.button_color = btn.hover_button_color
                     else:
                         btn.button_color = btn.original_button_color
-                        
+
         # drawing
         self.window.blit(BACKGROUND_SURFACE, (0, 0))
         self.window.blit(MENU_TITLE_SURFACE, (MENU_X, MENU_Y))
@@ -148,3 +168,12 @@ class GuiState:
         pygame.quit()
         self.geotale.quit()
         sys.exit()
+
+    def add_file_selection(self):
+        root = tkinter.Tk()
+        root.withdraw()
+        file_path = askopenfilename(filetype=(("Audio files", ".mp3 .wav"),))
+        root.update()
+        if file_path:
+            ADD_FILE_INPUT.text = file_path
+            print(file_path)
