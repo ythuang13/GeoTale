@@ -43,7 +43,6 @@ class GuiState:
 
         # drawing
         self.window.blit(BACKGROUND_SURFACE, (0, 0))
-        # self.window.blit(ZIP_SURFACE, (50, 50))
         for widget in HEAR_UI_GROUP:
             widget.draw(self.window)
 
@@ -56,7 +55,12 @@ class GuiState:
         Pull information from input fields and submit.
         :return: None
         """
-        print("hear submit press")
+        zip_input = HEAR_ZIP_INPUT.text
+        if len(zip_input) != 5:
+            raise ValueError("Zip code is 5 digits")
+        query_result = self.geotale.query_story(zip_input)
+        for story in query_result:
+            print(story)
 
     def add_menu(self):
         # events
@@ -120,9 +124,17 @@ class GuiState:
         description_input = ADD_DESC_INPUT.text
         file_input = ADD_FILE_INPUT.text
 
-        # delete
-        print(zip_input, title_input, author_input,
-              description_input, file_input)
+        # reset
+        ADD_ZIP_INPUT.text = ""
+        ADD_TITLE_INPUT.text = ""
+        ADD_AUTHOR_INPUT.text = ""
+        ADD_DESC_INPUT.text = ""
+        ADD_FILE_INPUT.text = ""
+        pygame.display.flip()
+
+        # send information
+        self.geotale.add_story(zip_input, title_input, author_input,
+                               file_input, description_input)
 
     def main_menu(self):
         # events
@@ -169,11 +181,11 @@ class GuiState:
         self.geotale.quit()
         sys.exit()
 
-    def add_file_selection(self):
+    @staticmethod
+    def add_file_selection():
         root = tkinter.Tk()
         root.withdraw()
         file_path = askopenfilename(filetype=(("Audio files", ".mp3 .wav"),))
         root.update()
         if file_path:
             ADD_FILE_INPUT.text = file_path
-            print(file_path)

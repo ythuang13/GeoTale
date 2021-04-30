@@ -16,7 +16,7 @@ class Network:
         try:
             self.client.connect((self.host, self.port))
             return pickle.loads(self.client.recv(2048))
-        except:
+        except Exception:
             pass
 
     def quit(self):

@@ -1,10 +1,11 @@
 from view.button import Button
 from view.textInput import TextInput
+from view.listDisplay import ListDisplay
 import string
 import pygame
 
 # socket settings
-HOST = "52.39.77.232"
+HOST = "54.186.6.243"
 PORT = 5555
 HEADER_SIZE = 10
 BUFFER_SIZE = 1024 * 4
@@ -48,12 +49,14 @@ MAIN_MENU_BTN = Button(670, 50, 50, 50, LIGHT_BLUE, SKY_BLUE,
 BTN_GROUP = [ADD_MENU_BTN, HEAR_MENU_BTN, MAIN_MENU_BTN]
 
 # hear menu
-HEAR_ZIP_INPUT = TextInput(205, 50, 300, 50, text="", font_size=50,
+HEAR_ZIP_INPUT = TextInput(205, 25, 300, 50, text="", font_size=50,
                            max_string_length=5, restriction=string.digits,
                            description="Zip code: ")
-HEAR_SUBMIT_BTN = Button(575, 75, 120, 50, LIGHT_BLUE, SKY_BLUE, text="Submit",
+HEAR_SUBMIT_BTN = Button(575, 50, 120, 50, LIGHT_BLUE, SKY_BLUE, text="Submit",
                          font=FONT_CHOICE)
-HEAR_UI_GROUP = [MAIN_MENU_BTN, HEAR_ZIP_INPUT, HEAR_SUBMIT_BTN]
+DISPLAY_UI = ListDisplay(50, 90, 620, 370)
+HEAR_UI_GROUP = [MAIN_MENU_BTN, HEAR_ZIP_INPUT, HEAR_SUBMIT_BTN, DISPLAY_UI]
+
 
 # add menu
 ADD_ZIP_INPUT = TextInput(220, 50, 300, 45, text="", font_size=50,
@@ -67,7 +70,6 @@ ADD_DESC_INPUT = TextInput(220, 230, 300, 45, text="", font_size=50,
                            max_string_length=-1, description="Description: ")
 ADD_FILE_INPUT = TextInput(220, 290, 300, 45, text="", font_size=50,
                            max_string_length=-1, description="File: ")
-# todo add file selection button
 ADD_FILE_BTN = Button(560, 315, 50, 35, LIGHT_BLUE, SKY_BLUE,
                       text="...", font=FONT_CHOICE)
 ADD_SUBMIT_BTN = Button(350, 400, 150, 50, LIGHT_BLUE, SKY_BLUE, text="Submit",

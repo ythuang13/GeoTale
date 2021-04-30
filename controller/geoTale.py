@@ -28,11 +28,17 @@ class GeoTale:
         # todo validate data
         if int(zip_code) < 00000 or int(zip_code) > 99999:
             raise ValueError("Invalid Zip Code")
-        if len(title) >= 45:
+        elif len(zip_code) != 5:
+            raise ValueError("Invalid zip code")
+        elif len(title) == 0:
+            raise ValueError("Required title")
+        elif len(title) >= 45:
             raise ValueError("Title too long")
-        if len(author) >= 45:
+        elif len(author) == 0:
+            raise ValueError("Required author")
+        elif len(author) >= 45:
             raise ValueError("Author name too long")
-        if len(description) >= 128:
+        elif len(description) >= 128:
             raise ValueError("description too long")
         # todo get length
         length = 0
