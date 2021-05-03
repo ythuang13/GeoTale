@@ -17,7 +17,7 @@ SCREEN_WIDTH, SCREEN_HEIGHT = 720, 480
 MOUSE_VISIBILITY = True
 
 # elements setting
-MENU_X, MENU_Y = 180, 80
+MENU_X, MENU_Y = 180, 50
 
 # preset colors
 BG_COLOR = (250, 250, 180)  # egg shell
@@ -40,13 +40,16 @@ BACKGROUND_SURFACE.fill(BG_COLOR)
 
 # gui ui elements
 # main menu
-HEAR_MENU_BTN = Button(360, 260, 180, 60, LIGHT_BLUE, SKY_BLUE,
+HEAR_MENU_BTN = Button(360, 190, 180, 60, LIGHT_BLUE, SKY_BLUE,
                        text="Hear story", font=FONT_CHOICE)
-ADD_MENU_BTN = Button(360, 330, 180, 60, LIGHT_BLUE, SKY_BLUE,
+ADD_MENU_BTN = Button(360, 260, 180, 60, LIGHT_BLUE, SKY_BLUE,
                       text="Add Story", font=FONT_CHOICE)
 MAIN_MENU_BTN = Button(670, 50, 50, 50, LIGHT_BLUE, SKY_BLUE,
                        text="H", font=FONT_CHOICE)
-BTN_GROUP = [ADD_MENU_BTN, HEAR_MENU_BTN, MAIN_MENU_BTN]
+EXIT_MENU_BTN = Button(360, 330, 180, 60, LIGHT_BLUE, SKY_BLUE,
+                       text="Exit", font=FONT_CHOICE)
+BTN_GROUP = [ADD_MENU_BTN, HEAR_MENU_BTN, MAIN_MENU_BTN, EXIT_MENU_BTN]
+
 
 # hear menu
 HEAR_ZIP_INPUT = TextInput(205, 25, 300, 50, text="", font_size=50,

@@ -156,6 +156,10 @@ class GuiState:
                         HEAR_MENU_BTN.button_color = \
                             HEAR_MENU_BTN.original_button_color
                         self.state = "hear_menu"
+                    if EXIT_MENU_BTN.is_over((mx, my)):
+                        EXIT_MENU_BTN.button_color = \
+                            EXIT_MENU_BTN.original_button_color
+                        self.quit()
             if event.type == pygame.MOUSEMOTION:
                 for btn in BTN_GROUP:
                     if btn.is_over((mx, my)):
@@ -168,6 +172,38 @@ class GuiState:
         self.window.blit(MENU_TITLE_SURFACE, (MENU_X, MENU_Y))
         ADD_MENU_BTN.draw(self.window)
         HEAR_MENU_BTN.draw(self.window)
+        EXIT_MENU_BTN.draw(self.window)
+
+        # final display update
+        pygame.display.flip()
+
+    def no_connection_menu(self):
+        # event
+        mx, my = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if EXIT_MENU_BTN.is_over((mx, my)):
+                        EXIT_MENU_BTN.button_color = \
+                            EXIT_MENU_BTN.original_button_color
+                        self.quit()
+            if event.type == pygame.MOUSEMOTION:
+                for btn in BTN_GROUP:
+                    if btn.is_over((mx, my)):
+                        btn.button_color = btn.hover_button_color
+                    else:
+                        btn.button_color = btn.original_button_color
+
+        # draw
+        self.window.blit(BACKGROUND_SURFACE, (0, 0))
+        EXIT_MENU_BTN.draw(self.window)
+
+        # text
+        text_font = pygame.font.SysFont(FONT_CHOICE, 50)
+        text_surface = text_font.render("No Connection!", True, BLACK)
+        self.window.blit(text_surface, (180, 200))
 
         # final display update
         pygame.display.flip()
@@ -179,6 +215,8 @@ class GuiState:
             self.hear_menu()
         elif self.state == "add_menu":
             self.add_menu()
+        elif self.state == "no_connection_menu":
+            self.no_connection_menu()
 
     def quit(self):
         pygame.quit()
