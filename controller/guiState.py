@@ -1,6 +1,8 @@
 from controller.settings import *
 from controller.geoTale import GeoTale
 from tkinter.filedialog import askopenfilename
+from os import path
+from pygame import mixer
 import tkinter
 import sys
 
@@ -26,6 +28,8 @@ class GuiState:
                         self.state = "main_menu"
                     elif HEAR_SUBMIT_BTN.is_over((mx, my)):
                         self.hear_submit()
+                    elif ID_SUBMIT_BTN.is_over((mx, my)):
+                        self.download_and_play()
             if event.type == pygame.MOUSEMOTION:
                 for btn in BTN_GROUP:
                     if btn.is_over((mx, my)):
@@ -38,8 +42,15 @@ class GuiState:
                 else:
                     HEAR_SUBMIT_BTN.button_color = \
                         HEAR_SUBMIT_BTN.original_button_color
+                if ID_SUBMIT_BTN.is_over((mx, my)):
+                    ID_SUBMIT_BTN.button_color = \
+                        ID_SUBMIT_BTN.hover_button_color
+                else:
+                    ID_SUBMIT_BTN.button_color = \
+                        ID_SUBMIT_BTN.original_button_color
 
             HEAR_ZIP_INPUT.events_handling(event)
+            ID_INPUT.events_handling(event)
 
         # drawing
         self.window.blit(BACKGROUND_SURFACE, (0, 0))
@@ -231,3 +242,31 @@ class GuiState:
         root.update()
         if file_path:
             ADD_FILE_INPUT.text = file_path
+
+    def download_and_play(self) -> None:
+        """
+        Download and play the audio file from server, check if file exist first
+        :return: None
+        """
+        try:
+            story_id = int(ID_INPUT.text)
+        except ValueError:
+            raise ValueError("Invalid story id")
+
+        # check if file exist already
+        file_exist = path.exists(path.join("tmp", f"{story_id}.wav")) \
+            or path.exists(path.join("tmp", f"{story_id}.mp4"))
+
+        # if not, download
+        if not file_exist:
+            self.geotale.download_story(story_id)
+
+        # select file
+        if path.exists(path.join("tmp", f"{story_id}.wav")):
+            file_path = path.join("tmp", f"{story_id}.wav")
+        elif path.exists(path.join("tmp", f"{story_id}.mp4")):
+            file_path = path.join("tmp", f"{story_id}.mp4")
+
+        # play audio
+        mixer.music.load(file_path)
+        mixer.music.play()

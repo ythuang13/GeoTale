@@ -57,23 +57,28 @@ HEAR_ZIP_INPUT = TextInput(205, 25, 300, 50, text="", font_size=50,
                            description="Zip code: ")
 HEAR_SUBMIT_BTN = Button(575, 50, 120, 50, LIGHT_BLUE, SKY_BLUE, text="Submit",
                          font=FONT_CHOICE)
-DISPLAY_UI = ListDisplay(50, 90, 620, 370)
-HEAR_UI_GROUP = [MAIN_MENU_BTN, HEAR_ZIP_INPUT, HEAR_SUBMIT_BTN, DISPLAY_UI]
+ID_INPUT = TextInput(205, 85, 300, 50, text="", font_size=50,
+                     restriction=string.digits, description="Story id: ")
+ID_SUBMIT_BTN = Button(575, 110, 120, 50, LIGHT_BLUE, SKY_BLUE, text="Listen",
+                       font=FONT_CHOICE)
+DISPLAY_UI = ListDisplay(50, 150, 585, 300, item_count=4)
+HEAR_UI_GROUP = [MAIN_MENU_BTN, HEAR_ZIP_INPUT, HEAR_SUBMIT_BTN, ID_SUBMIT_BTN,
+                 ID_INPUT, DISPLAY_UI]
 
 
 # add menu
-ADD_ZIP_INPUT = TextInput(220, 50, 300, 45, text="", font_size=50,
+ADD_ZIP_INPUT = TextInput(275, 50, 300, 45, text="", font_size=50,
                           max_string_length=5, restriction=string.digits,
                           description="Zip code: ")
-ADD_TITLE_INPUT = TextInput(220, 110, 300, 45, text="", font_size=50,
+ADD_TITLE_INPUT = TextInput(275, 110, 300, 45, text="", font_size=50,
                             max_string_length=-1, description="Title: ")
-ADD_AUTHOR_INPUT = TextInput(220, 170, 300, 45, text="", font_size=50,
+ADD_AUTHOR_INPUT = TextInput(275, 170, 300, 45, text="", font_size=50,
                              max_string_length=-1, description="Author: ")
-ADD_DESC_INPUT = TextInput(220, 230, 300, 45, text="", font_size=50,
+ADD_DESC_INPUT = TextInput(275, 230, 300, 45, text="", font_size=50,
                            max_string_length=-1, description="Description: ")
-ADD_FILE_INPUT = TextInput(220, 290, 300, 45, text="", font_size=50,
+ADD_FILE_INPUT = TextInput(275, 290, 300, 45, text="", font_size=50,
                            max_string_length=-1, description="File: ")
-ADD_FILE_BTN = Button(560, 315, 50, 35, LIGHT_BLUE, SKY_BLUE,
+ADD_FILE_BTN = Button(615, 315, 50, 35, LIGHT_BLUE, SKY_BLUE,
                       text="...", font=FONT_CHOICE)
 ADD_SUBMIT_BTN = Button(350, 400, 150, 50, LIGHT_BLUE, SKY_BLUE, text="Submit",
                         font=FONT_CHOICE)
