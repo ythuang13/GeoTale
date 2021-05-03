@@ -59,8 +59,12 @@ class GuiState:
         if len(zip_input) != 5:
             raise ValueError("Zip code is 5 digits")
         query_result = self.geotale.query_story(zip_input)
-        for story in query_result:
-            print(story)
+
+        if query_result:
+            for story in query_result:
+                print(story)
+        else:
+            print("no result")
 
     def add_menu(self):
         # events
