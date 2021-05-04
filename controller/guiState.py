@@ -72,10 +72,25 @@ class GuiState:
         query_result = self.geotale.query_story(zip_input)
 
         if query_result:
+            temp_data = []
             for story in query_result:
-                print(story)
+                story_id = story.get("story_id")
+                story_title = story.get("title")
+                story_author = story.get("author")
+                story_length = story.get("length")
+                story_description = story.get("description")
+                story_date = story.get("create_date")
+                temp_data.append((f"{story_id}: {story_title} by "
+                                  f"{story_author}. {story_length}s, "
+                                  f"{story_date}",
+                                  f"{story_description}"))
+            DISPLAY_UI.update_items(temp_data)
         else:
-            print("no result")
+            DISPLAY_UI.update_items([("No data", "No data found"),
+                                     ("", ""),
+                                     ("", ""),
+                                     ("", "")])
+        DISPLAY_UI.draw(self.window, True)
 
     def add_menu(self):
         # events
@@ -255,7 +270,7 @@ class GuiState:
 
         # check if file exist already
         file_exist = path.exists(path.join("tmp", f"{story_id}.wav")) \
-            or path.exists(path.join("tmp", f"{story_id}.mp4"))
+            or path.exists(path.join("tmp", f"{story_id}.mp3"))
 
         # if not, download
         if not file_exist:
@@ -264,8 +279,8 @@ class GuiState:
         # select file
         if path.exists(path.join("tmp", f"{story_id}.wav")):
             file_path = path.join("tmp", f"{story_id}.wav")
-        elif path.exists(path.join("tmp", f"{story_id}.mp4")):
-            file_path = path.join("tmp", f"{story_id}.mp4")
+        elif path.exists(path.join("tmp", f"{story_id}.mp3")):
+            file_path = path.join("tmp", f"{story_id}.mp3")
 
         # play audio
         mixer.music.load(file_path)

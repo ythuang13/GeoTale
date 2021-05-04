@@ -1,4 +1,5 @@
 from controller.settings import *
+from os import path
 import tqdm
 import os
 import socket
@@ -92,7 +93,7 @@ class Network:
         progress = tqdm.tqdm(range(file_size), f"Sending file {file_name}",
                              unit="B", unit_scale=True, unit_divisor=1024)
 
-        save_file_name = f"..\\tmp\\{file_name}"
+        save_file_name = path.join("tmp", f"{file_name}")
         # receive file
         with open(save_file_name, "wb") as file:
             while True:
