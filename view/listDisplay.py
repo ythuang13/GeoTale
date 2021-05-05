@@ -43,10 +43,10 @@ class ListDisplay:
         """
         self.item_data = data
         for i, (temp_title, temp_description) in enumerate(self.item_data):
-            self.item_list[i].title = temp_title
-            self.item_list[i].description = temp_description
             if i == self.item_count:
                 break
+            self.item_list[i].title = temp_title
+            self.item_list[i].description = temp_description
 
 
 class ListItem:

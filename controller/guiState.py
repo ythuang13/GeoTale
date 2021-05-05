@@ -13,6 +13,8 @@ class GuiState:
         self.state = "main_menu"
         self.time_delta = None
         self.geotale = GeoTale()
+        if not self.geotale.network.id:
+            self.state = "no_connection_menu"
 
     def hear_menu(self):
         # events
@@ -67,7 +69,7 @@ class GuiState:
         :return: None
         """
         zip_input = HEAR_ZIP_INPUT.text
-        if len(zip_input) != 5:
+        if len(zip_input) not in [0, 5]:
             raise ValueError("Zip code is 5 digits")
         query_result = self.geotale.query_story(zip_input)
 
@@ -227,6 +229,7 @@ class GuiState:
         EXIT_MENU_BTN.draw(self.window)
 
         # text
+        self.window.blit(MENU_TITLE_SURFACE, (MENU_X, MENU_Y))
         text_font = pygame.font.SysFont(FONT_CHOICE, 50)
         text_surface = text_font.render("No Connection!", True, BLACK)
         self.window.blit(text_surface, (180, 200))

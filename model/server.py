@@ -21,7 +21,10 @@ FORMAT = "utf-8"
 def process_action(conn, indicator, data):
     if indicator == "Q":
         # query and return story from zip code
-        CURSOR.execute("SELECT * FROM story WHERE zip_code = %s", (data,))
+        if data == "":
+            CURSOR.execute("SELECT * FROM story")
+        else:
+            CURSOR.execute("SELECT * FROM story WHERE zip_code = %s", (data,))
         result = CURSOR.fetchall()
 
         # return status code
