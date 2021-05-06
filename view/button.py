@@ -6,7 +6,8 @@ class Button:
     def __init__(self, pos_x, pos_y, width, height,
                  button_color=(255, 255, 255),
                  hover_button_color=(200, 200, 200),
-                 text="", text_color=(0, 0, 0), font=None, font_size=35):
+                 text="", image=None, text_color=(0, 0, 0), font=None,
+                 font_size=35):
         self.image = pygame.Surface((width, height))
         self.image.fill(button_color)
         self.rect = self.image.get_rect()
@@ -18,6 +19,11 @@ class Button:
         self.text_color = text_color
         self.font = pygame.font.SysFont(font, font_size)
         self.font_size = font_size
+
+        # image
+        self.image = image
+        if self.image:
+            self.image_surface = pygame.image.load(self.image)
 
     @property
     def x(self):
@@ -51,6 +57,8 @@ class Button:
                      (self.x + (self.width / 2 - text_surface.get_width() / 2),
                       self.y + (self.height / 2
                                 - text_surface.get_height() / 2)))
+        elif self.image:
+            win.blit(self.image_surface, (self.x, self.y))
 
     def is_over(self, pos):
         if self.x < pos[0] < self.x + self.width:

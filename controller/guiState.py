@@ -24,9 +24,9 @@ class GuiState:
                 self.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if MAIN_MENU_BTN.is_over((mx, my)):
-                        MAIN_MENU_BTN.button_color = \
-                            MAIN_MENU_BTN.original_button_color
+                    if HOME_BTN.is_over((mx, my)):
+                        HOME_BTN.button_color = \
+                            HOME_BTN.original_button_color
                         self.state = "main_menu"
                     elif HEAR_SUBMIT_BTN.is_over((mx, my)):
                         self.hear_submit()
@@ -109,9 +109,9 @@ class GuiState:
                 self.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if MAIN_MENU_BTN.is_over((mx, my)):
-                        MAIN_MENU_BTN.button_color = \
-                            MAIN_MENU_BTN.original_button_color
+                    if HOME_BTN.is_over((mx, my)):
+                        HOME_BTN.button_color = \
+                            HOME_BTN.original_button_color
                         self.state = "main_menu"
                     elif ADD_SUBMIT_BTN.is_over((mx, my)):
                         self.add_submit()
