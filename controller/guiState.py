@@ -87,7 +87,7 @@ class GuiState:
                 if len(story_title) > 18:
                     story_title = story_title[0:18] + "..."
                 if len(story_description) > 50:
-                    story_description = story_description[0:50] = "..."
+                    story_description = story_description[0:50] + "..."
 
                 # append title and description
                 temp_data.append((f"ID: {story_id} | {story_title} by "
