@@ -1,7 +1,7 @@
 from controller.settings import *
 from controller.geoTale import GeoTale
 from tkinter.filedialog import askopenfilename
-from os import path
+from os import path, mkdir
 from pygame import mixer
 import tkinter
 import sys
@@ -81,10 +81,17 @@ class GuiState:
                 story_author = story.get("author")
                 story_length = story.get("length")
                 story_description = story.get("description")
-                story_date = story.get("create_date")
-                temp_data.append((f"{story_id}: {story_title} by "
-                                  f"{story_author}. {story_length}s, "
-                                  f"{story_date}",
+                story_date = story.get("create_date").strftime("%m/%d/%Y")
+
+                # processing
+                if len(story_title) > 18:
+                    story_title = story_title[0:18] + "..."
+                if len(story_description) > 50:
+                    story_description = story_description[0:50] = "..."
+
+                # append title and description
+                temp_data.append((f"ID: {story_id} | {story_title} by "
+                                  f"{story_author} | {story_date}",
                                   f"{story_description}"))
             DISPLAY_UI.update_items(temp_data)
         else:
@@ -167,6 +174,7 @@ class GuiState:
         # send information
         self.geotale.add_story(zip_input, title_input, author_input,
                                file_input, description_input)
+        self.state = "main_menu"
 
     def main_menu(self):
         # events
@@ -256,7 +264,7 @@ class GuiState:
     def add_file_selection():
         root = tkinter.Tk()
         root.withdraw()
-        file_path = askopenfilename(filetype=(("Audio files", ".mp3 .wav"),))
+        file_path = askopenfilename(filetype=(("Audio files", ".wav"),))
         root.update()
         if file_path:
             ADD_FILE_INPUT.text = file_path
@@ -271,19 +279,19 @@ class GuiState:
         except ValueError:
             raise ValueError("Invalid story id")
 
+        # check if tmp folder exist
+        if not path.isdir("tmp"):
+            mkdir("tmp")
+        
         # check if file exist already
-        file_exist = path.exists(path.join("tmp", f"{story_id}.wav")) \
-            or path.exists(path.join("tmp", f"{story_id}.mp3"))
+        file_exist = path.exists(path.join("tmp", f"{story_id}.wav"))
 
         # if not, download
         if not file_exist:
             self.geotale.download_story(story_id)
 
         # select file
-        if path.exists(path.join("tmp", f"{story_id}.wav")):
-            file_path = path.join("tmp", f"{story_id}.wav")
-        elif path.exists(path.join("tmp", f"{story_id}.mp3")):
-            file_path = path.join("tmp", f"{story_id}.mp3")
+        file_path = path.join("tmp", f"{story_id}.wav")
 
         # play audio
         mixer.music.load(file_path)

@@ -62,8 +62,10 @@ ID_INPUT = TextInput(205, 85, 300, 50, text="", font_size=50,
 ID_SUBMIT_BTN = Button(575, 110, 120, 50, LIGHT_BLUE, SKY_BLUE, text="Listen",
                        font=FONT_CHOICE)
 DISPLAY_UI = ListDisplay(50, 150, 585, 300, item_count=4)
+UP_BTN = Button(670, 250, 50, 50, LIGHT_BLUE, SKY_BLUE, text="^")
+DOWN_BTN = Button(670, 320, 50, 50, LIGHT_BLUE, SKY_BLUE, text="v")
 HEAR_UI_GROUP = [MAIN_MENU_BTN, HEAR_ZIP_INPUT, HEAR_SUBMIT_BTN, ID_SUBMIT_BTN,
-                 ID_INPUT, DISPLAY_UI]
+                 ID_INPUT, DISPLAY_UI, UP_BTN, DOWN_BTN]
 
 
 # add menu

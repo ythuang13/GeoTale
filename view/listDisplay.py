@@ -48,6 +48,10 @@ class ListDisplay:
             self.item_list[i].title = temp_title
             self.item_list[i].description = temp_description
 
+        for j in range(i + 1, self.item_count):
+            self.item_list[j].title = ""
+            self.item_list[j].description = ""
+
 
 class ListItem:
     def __init__(self, pos_x, pos_y, width, height,
