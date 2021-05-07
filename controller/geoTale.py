@@ -1,7 +1,6 @@
+import os
 from model.network import Network
 from controller.settings import *
-from tkinter import filedialog
-import tkinter as tk
 
 
 class GeoTale:
@@ -26,7 +25,8 @@ class GeoTale:
         """
         # data validation
         # todo validate data
-        if int(zip_code) < 00000 or int(zip_code) > 99999:
+
+        if zip_code == "" or int(zip_code) < 00000 or int(zip_code) > 99999:
             raise ValueError("Invalid Zip Code")
         elif len(zip_code) != 5:
             raise ValueError("Invalid zip code")
@@ -40,9 +40,10 @@ class GeoTale:
             raise ValueError("Author name too long")
         elif len(description) >= 128:
             raise ValueError("description too long")
+        elif not os.path.exists(file_path):
+            raise ValueError("File path doesn't exist")
         # todo get length
         length = 0
-        # todo check path validity
 
         # upload then insert data into database
         self.network.send_file(file_path)

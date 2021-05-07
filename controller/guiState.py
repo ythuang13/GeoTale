@@ -1,6 +1,9 @@
+import traceback
+
 from controller.settings import *
 from controller.geoTale import GeoTale
 from tkinter.filedialog import askopenfilename
+from tkinter import messagebox
 from os import path, mkdir
 from pygame import mixer
 import tkinter
@@ -70,7 +73,8 @@ class GuiState:
         """
         zip_input = HEAR_ZIP_INPUT.text
         if len(zip_input) not in [0, 5]:
-            raise ValueError("Zip code is 5 digits")
+            raise ValueError("Zip code has to be 5 digits\nSubmit with "
+                             "nothing to get all results")
         query_result = self.geotale.query_story(zip_input)
 
         if query_result:
@@ -293,7 +297,12 @@ class GuiState:
             elif self.state == "no_connection_menu":
                 self.no_connection_menu()
         except ValueError as e:
-            print(e)
+            # todo remove traceback
+            traceback.print_exc()
+            root = tkinter.Tk()
+            root.withdraw()
+            messagebox.showerror("Input Error", e)
+            root.update()
 
         # lost connection
         if not self.geotale.network.id:
