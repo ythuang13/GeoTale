@@ -83,6 +83,19 @@ class TextInput:
         if self.is_active:
             self.text_surface = self.font.render(self.text + "|", True,
                                                  self.text_color)
+            temp = -1 * len(self.text)
+            i = 1
+            while self.text_surface.get_width() >= self.rect.width:
+                self.text_surface = self.font.render(self.text[temp + i:]
+                                                     + "|",
+                                                     True, self.text_color)
+                i += 1
         else:
             self.text_surface = self.font.render(self.text, True,
                                                  self.text_color)
+            temp = -1 * len(self.text)
+            i = 1
+            while self.text_surface.get_width() >= self.rect.width:
+                self.text_surface = self.font.render(self.text[temp + i:],
+                                                     True, self.text_color)
+                i += 1

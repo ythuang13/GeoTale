@@ -292,7 +292,7 @@ class GuiState:
         elif self.state == "no_connection_menu":
             self.no_connection_menu()
 
-        # handle lost connection
+        # lost connection
         if not self.geotale.network.id:
             self.state = "no_connection_menu"
 
