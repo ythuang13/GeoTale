@@ -37,6 +37,8 @@ class Network:
             return data
         except socket.error as e:
             print(e)
+        except ValueError:
+            self.id = None
 
     def send_file(self, file_path):
         file_size = os.path.getsize(file_path)

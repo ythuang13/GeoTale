@@ -8,10 +8,6 @@ class GeoTale:
     def __init__(self):
         self.cache = dict()
         self.network = Network(HOST, PORT)
-        if self.network.id is None:
-            # todo handle no connection and let GuiState change to a state
-            #  of warning
-            pass
 
     def quit(self):
         self.network.quit()

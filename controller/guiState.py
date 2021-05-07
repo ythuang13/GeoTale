@@ -245,21 +245,6 @@ class GuiState:
         # final display update
         pygame.display.flip()
 
-    def state_manager(self):
-        if self.state == "main_menu":
-            self.main_menu()
-        elif self.state == "hear_menu":
-            self.hear_menu()
-        elif self.state == "add_menu":
-            self.add_menu()
-        elif self.state == "no_connection_menu":
-            self.no_connection_menu()
-
-    def quit(self):
-        pygame.quit()
-        self.geotale.quit()
-        sys.exit()
-
     @staticmethod
     def add_file_selection():
         root = tkinter.Tk()
@@ -296,3 +281,22 @@ class GuiState:
         # play audio
         mixer.music.load(file_path)
         mixer.music.play()
+
+    def state_manager(self):
+        if self.state == "main_menu":
+            self.main_menu()
+        elif self.state == "hear_menu":
+            self.hear_menu()
+        elif self.state == "add_menu":
+            self.add_menu()
+        elif self.state == "no_connection_menu":
+            self.no_connection_menu()
+
+        # handle lost connection
+        if not self.geotale.network.id:
+            self.state = "no_connection_menu"
+
+    def quit(self):
+        pygame.quit()
+        self.geotale.quit()
+        sys.exit()
