@@ -1,5 +1,3 @@
-import traceback
-
 from controller.settings import *
 from controller.geoTale import GeoTale
 from tkinter.filedialog import askopenfilename
@@ -263,6 +261,8 @@ class GuiState:
         Download and play the audio file from server, check if file exist first
         :return: None
         """
+        if ID_INPUT.text == "":
+            raise ValueError("Need to type an integer for story id")
         try:
             story_id = int(ID_INPUT.text)
         except ValueError:
@@ -297,8 +297,6 @@ class GuiState:
             elif self.state == "no_connection_menu":
                 self.no_connection_menu()
         except ValueError as e:
-            # todo remove traceback
-            traceback.print_exc()
             root = tkinter.Tk()
             root.withdraw()
             messagebox.showerror("Input Error", e)
