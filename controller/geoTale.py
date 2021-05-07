@@ -61,7 +61,11 @@ class GeoTale:
         # return a list of queried stories
         return result
 
-    def download_story(self, song_id: int) -> None:
+    def download_story(self, story_id: int) -> None:
+        # query to see if story_id is valid
+        result = self.network.send(("QD", story_id))
         # download story from database with story id
-        download_path = ""
-        self.network.request_file(song_id)
+        if result:
+            self.network.request_file(story_id)
+        else:
+            raise ValueError("No such story with this story id")

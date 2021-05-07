@@ -283,14 +283,17 @@ class GuiState:
         mixer.music.play()
 
     def state_manager(self):
-        if self.state == "main_menu":
-            self.main_menu()
-        elif self.state == "hear_menu":
-            self.hear_menu()
-        elif self.state == "add_menu":
-            self.add_menu()
-        elif self.state == "no_connection_menu":
-            self.no_connection_menu()
+        try:
+            if self.state == "main_menu":
+                self.main_menu()
+            elif self.state == "hear_menu":
+                self.hear_menu()
+            elif self.state == "add_menu":
+                self.add_menu()
+            elif self.state == "no_connection_menu":
+                self.no_connection_menu()
+        except ValueError as e:
+            print(e)
 
         # lost connection
         if not self.geotale.network.id:

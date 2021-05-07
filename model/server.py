@@ -31,6 +31,20 @@ def process_action(conn, indicator, data):
         data = pickle.dumps(result)
         d = bytes(f"{len(data):<{HEADER_SIZE}}", FORMAT) + data
         conn.sendall(d)
+    elif indicator == "QD":
+        # query and return boolean from story id
+        print(data)
+        CURSOR.execute("SELECT * FROM story WHERE story_id = %s", (data, ))
+        result = CURSOR.fetchone()
+
+        # return true or false
+        if result:
+            result = True
+        else:
+            result = False
+        data = pickle.dumps(result)
+        d = bytes(f"{len(data):<{HEADER_SIZE}}", FORMAT) + data
+        conn.sendall(d)
     elif indicator == "I":
         # parse data
         zip_code, title, author, description, length = data
