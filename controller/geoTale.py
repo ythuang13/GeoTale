@@ -1,6 +1,7 @@
-import os
 from model.network import Network
 from controller.settings import *
+import os
+import soundfile as sf
 
 
 class GeoTale:
@@ -42,13 +43,19 @@ class GeoTale:
             raise ValueError("description too long")
         elif not os.path.exists(file_path):
             raise ValueError("File path doesn't exist")
-        # todo get length
-        length = 0
 
-        # upload then insert data into database
-        self.network.send_file(file_path)
-        self.network.send(("I", (zip_code, title, author, description,
-                                 length)))
+        # length of wav file
+        f = sf.SoundFile(file_path)
+        length = int(len(f) / f.samplerate)
+
+        # upload then insert data into database, and verify
+        status_code = self.network.send_file(file_path)
+
+        if status_code == "200":
+            self.network.send(("I", (zip_code, title, author,
+                                     description, length)))
+
+        return status_code
 
     def query_story(self, zip_code) -> list:
         """

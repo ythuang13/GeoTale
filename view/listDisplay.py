@@ -41,6 +41,7 @@ class ListDisplay:
         :param data: list of data to display for the items
         :return: None
         """
+        # todo cycle list display
         self.item_data = data
         for i, (temp_title, temp_description) in enumerate(self.item_data):
             if i == self.item_count:

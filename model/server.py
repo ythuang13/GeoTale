@@ -2,7 +2,6 @@ from _thread import *
 import socket
 import mysql.connector
 import pickle
-import tqdm
 import os
 
 DB = mysql.connector.connect(host="localhost",
@@ -63,13 +62,9 @@ def process_action(conn, indicator, data):
         data = pickle.dumps("200")
         d = bytes(f"{len(data):<{HEADER_SIZE}}", FORMAT) + data
         conn.sendall(d)
-    elif indicator == "U":
+    elif indicator == "upload":
         file_size, file_name = data
         extension = file_name.split(".")[-1]
-
-        # another sick progress bar
-        progress = tqdm.tqdm(range(file_size), f"Receiving {file_name}",
-                             unit="B", unit_scale=True, unit_divisor=1024)
 
         # get save file name
         CURSOR.execute("SELECT story_id FROM story ORDER BY story_id DESC")
@@ -98,12 +93,7 @@ def process_action(conn, indicator, data):
                 # acknowledgement
                 conn.sendall(b"200")
 
-                # update the progress bar
-                progress.update(len(data_chunks))
-
-        # close progress bar
-        progress.close()
-    elif indicator == "D":
+    elif indicator == "download":
         temp = data[0]
         # todo check filename
         # check if filename is in directory
@@ -112,13 +102,9 @@ def process_action(conn, indicator, data):
         file_name = os.path.basename(file_path)
 
         # send file information, file_name and extension, and size
-        d = pickle.dumps(("D", (file_size, file_name)))
+        d = pickle.dumps(("temp", (file_size, file_name)))
         d = bytes(f"{len(d):<{HEADER_SIZE}}", FORMAT) + d
         conn.sendall(d)
-
-        # progress bar
-        progress = tqdm.tqdm(range(file_size), f"Sending file {file_name}",
-                             unit="B", unit_scale=True, unit_divisor=1024)
 
         # send file
         with open(file_path, "rb") as file:
@@ -136,14 +122,29 @@ def process_action(conn, indicator, data):
                 conn.sendall(d)
 
                 # receive acknowledgement
-                ack = conn.recv(3)
+                _ = conn.recv(3)
 
-                # update progress bar
-                progress.update(len(bytes_read))
+    elif indicator == "verify size":
+        file_size = data[0]
 
-        # close progress bar
-        progress.close()
+        CURSOR.execute("SELECT story_id FROM story ORDER BY story_id DESC")
+        temp = CURSOR.fetchone()
+        file_name = temp.get("story_id")
 
+        storage_file_size = os.path.getsize(os.path.join("storage",
+                                                         f"{file_name+1}.wav"))
+        if storage_file_size == file_size:
+            status_code = "200"
+        else:
+            status_code = "404"
+
+        # return status code back
+        d = pickle.dumps(("D", (status_code, )))
+        d = bytes(f"{len(d):<{HEADER_SIZE}}", FORMAT) + d
+        conn.sendall(d)
+
+    elif indicator == "verify insert":
+        pass
     else:
         print("else")
 

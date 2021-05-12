@@ -1,6 +1,4 @@
 from controller.settings import *
-from os import path
-import tqdm
 import os
 import socket
 import pickle
@@ -40,18 +38,14 @@ class Network:
         except ValueError:
             self.id = None
 
-    def send_file(self, file_path):
+    def send_file(self, file_path) -> str:
         file_size = os.path.getsize(file_path)
         file_name = os.path.basename(file_path)
 
         # send indicator with file size
-        d = pickle.dumps(("U", (file_size, file_name)))
+        d = pickle.dumps(("upload", (file_size, file_name)))
         d = bytes(f"{len(d):<{HEADER_SIZE}}", FORMAT) + d
         self.client.sendall(d)
-
-        # sick progress bar
-        progress = tqdm.tqdm(range(file_size), f"Sending file {file_name}",
-                             unit="B", unit_scale=True, unit_divisor=1024)
 
         # send the file binary data in buffer size chunks
         with open(file_path, "rb") as file:
@@ -69,18 +63,24 @@ class Network:
                 self.client.sendall(d)
 
                 # receive acknowledgement
-                ack = self.client.recv(3)
+                _ = self.client.recv(3)
 
-                # update progress bar
-                progress.update(len(bytes_read))
+        # verify
+        d = pickle.dumps(("verify size", (file_size,)))
+        d = bytes(f"{len(d):<{HEADER_SIZE}}", FORMAT) + d
+        self.client.sendall(d)
 
-        # close progress
-        progress.close()
+        header = self.client.recv(HEADER_SIZE)
+        d = self.client.recv(int(header))
+        data = pickle.loads(d)
+        status_code = data[1][0]
+
+        return status_code
 
     def request_file(self, request_data):
 
         # send indicator with request_data
-        d = pickle.dumps(("D", (request_data, )))
+        d = pickle.dumps(("download", (request_data, )))
         d = bytes(f"{len(d):<{HEADER_SIZE}}", FORMAT) + d
         self.client.sendall(d)
 
@@ -88,12 +88,7 @@ class Network:
         header = self.client.recv(HEADER_SIZE)
         d = self.client.recv(int(header))
         data = pickle.loads(d)
-        file_size = int(data[1][0])
         file_name = data[1][1]
-
-        # progress bar
-        progress = tqdm.tqdm(range(file_size), f"Sending file {file_name}",
-                             unit="B", unit_scale=True, unit_divisor=1024)
 
         save_file_name = path.join("tmp", f"{file_name}")
         # receive file
@@ -116,26 +111,3 @@ class Network:
 
                 # acknowledgement
                 self.client.sendall(b"200")
-
-                # update the progress bar
-                progress.update(len(data_chunks))
-
-        # close progress bar
-        progress.close()
-
-
-def main():
-    network = Network(HOST, PORT)
-    # print(network.id)
-
-    # zip_code = input("Zip code: ")
-    # title = input("title: ")
-    # author = input("author: ")
-    # description = input("description: ")
-    # path = input("path: ")
-    # network.send_file(r"C:\Users\ythua\Desktop\image0.png")
-    network.request_file("6")
-
-
-if __name__ == "__main__":
-    main()

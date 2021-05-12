@@ -173,9 +173,19 @@ class GuiState:
         ADD_FILE_INPUT.text = ""
         pygame.display.flip()
 
-        # send information
-        self.geotale.add_story(zip_input, title_input, author_input,
-                               file_input, description_input)
+        # send and check story information
+        status_code = self.geotale.add_story(zip_input, title_input,
+                                             author_input, file_input,
+                                             description_input)
+
+        root = tkinter.Tk()
+        root.withdraw()
+        if status_code == "200":
+            messagebox.showinfo("Geotale", "Insert successfully")
+        else:
+            messagebox.showinfo("Geotale", "Insert unsuccessfully")
+        root.update()
+
         self.state = "main_menu"
 
     def main_menu(self):
@@ -253,6 +263,7 @@ class GuiState:
         root.withdraw()
         file_path = askopenfilename(filetype=(("Audio files", ".wav"),))
         root.update()
+
         if file_path:
             ADD_FILE_INPUT.text = file_path
 
@@ -271,7 +282,7 @@ class GuiState:
         # check if tmp folder exist
         if not path.isdir("tmp"):
             mkdir("tmp")
-        
+
         # check if file exist already
         file_exist = path.exists(path.join("tmp", f"{story_id}.wav"))
 
