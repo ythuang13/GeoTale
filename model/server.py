@@ -18,7 +18,7 @@ FORMAT = "utf-8"
 
 
 def process_action(conn, indicator, data):
-    if indicator == "Q":
+    if indicator == "query":
         # query and return story from zip code
         if data == "":
             CURSOR.execute("SELECT * FROM story")
@@ -30,7 +30,7 @@ def process_action(conn, indicator, data):
         data = pickle.dumps(result)
         d = bytes(f"{len(data):<{HEADER_SIZE}}", FORMAT) + data
         conn.sendall(d)
-    elif indicator == "QD":
+    elif indicator == "query download":
         # query and return boolean from story id
         print(data)
         CURSOR.execute("SELECT * FROM story WHERE story_id = %s", (data, ))
@@ -95,7 +95,6 @@ def process_action(conn, indicator, data):
 
     elif indicator == "download":
         temp = data[0]
-        # todo check filename
         # check if filename is in directory
         file_path = f"storage/{temp}.wav"
         file_size = os.path.getsize(file_path)

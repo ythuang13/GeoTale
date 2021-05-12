@@ -77,7 +77,7 @@ ADD_ZIP_INPUT = TextInput(275, 50, 300, 45, text="", font_size=50,
                           max_string_length=5, restriction=string.digits,
                           description="Zip code: ")
 ADD_TITLE_INPUT = TextInput(275, 110, 300, 45, text="", font_size=50,
-                            max_string_length=22, description="Title: ")
+                            max_string_length=15, description="Title: ")
 ADD_AUTHOR_INPUT = TextInput(275, 170, 300, 45, text="", font_size=50,
                              max_string_length=15, description="Author: ")
 ADD_DESC_INPUT = TextInput(275, 230, 300, 45, text="", font_size=50,

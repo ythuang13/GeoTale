@@ -25,8 +25,6 @@ class GeoTale:
         :return: None
         """
         # data validation
-        # todo validate data
-
         if zip_code == "" or int(zip_code) < 00000 or int(zip_code) > 99999:
             raise ValueError("Invalid Zip Code")
         elif len(zip_code) != 5:
@@ -47,6 +45,8 @@ class GeoTale:
         # length of wav file
         f = sf.SoundFile(file_path)
         length = int(len(f) / f.samplerate)
+        if length == 0:
+            raise ValueError("Please don't submit empty audio file")
 
         # upload then insert data into database, and verify
         status_code = self.network.send_file(file_path)
@@ -64,14 +64,14 @@ class GeoTale:
         :return: A list of stories
         """
         # query stories from database
-        result = self.network.send(("Q", zip_code))
+        result = self.network.send(("query", zip_code))
 
         # return a list of queried stories
         return result
 
     def download_story(self, story_id: int) -> None:
         # query to see if story_id is valid
-        result = self.network.send(("QD", story_id))
+        result = self.network.send(("query download", story_id))
         # download story from database with story id
         if result:
             self.network.request_file(story_id)

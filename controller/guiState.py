@@ -93,7 +93,8 @@ class GuiState:
 
                 # append title and description
                 temp_data.append((f"ID: {story_id} | {story_title} by "
-                                  f"{story_author} | {story_date}",
+                                  f"{story_author} | {story_date} | "
+                                  f"{story_length}s",
                                   f"{story_description}"))
             DISPLAY_UI.update_items(temp_data)
         else:
