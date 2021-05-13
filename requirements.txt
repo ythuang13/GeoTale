@@ -1,0 +1,2 @@
+pygame==2.0.1
+SoundFile==0.10.3.post1
