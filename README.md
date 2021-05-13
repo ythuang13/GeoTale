@@ -18,9 +18,3 @@ on their local machine.
    just enough information? Should some properties be hidden? What else would help for a user to be able to use
    the program?
    
-## Section Complete
-- [x] main menu
-- [x] add menu
-- [ ] hear menu
-- [ ] list display widget
-- [ ] fix  field input char length
