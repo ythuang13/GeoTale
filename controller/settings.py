@@ -50,8 +50,6 @@ HOME_BTN = Button(670, 50, 50, 50, LIGHT_BLUE, SKY_BLUE,
                   image=path.join("asset", "home.png"), font=FONT_CHOICE)
 EXIT_MENU_BTN = Button(360, 330, 180, 60, LIGHT_BLUE, SKY_BLUE,
                        text="Exit", font=FONT_CHOICE)
-BTN_GROUP = [ADD_MENU_BTN, HEAR_MENU_BTN, HOME_BTN, EXIT_MENU_BTN]
-
 
 # hear menu
 HEAR_ZIP_INPUT = TextInput(205, 25, 300, 50, text="", font_size=50,
@@ -91,3 +89,8 @@ ADD_SUBMIT_BTN = Button(350, 400, 150, 50, LIGHT_BLUE, SKY_BLUE, text="Submit",
 ADD_UI_GROUP = [HOME_BTN, ADD_ZIP_INPUT, ADD_TITLE_INPUT,
                 ADD_AUTHOR_INPUT, ADD_DESC_INPUT, ADD_FILE_INPUT,
                 ADD_SUBMIT_BTN, ADD_FILE_BTN]
+
+# groups
+BTN_GROUP = [ADD_MENU_BTN, HEAR_MENU_BTN, HOME_BTN, EXIT_MENU_BTN,
+             UP_BTN, DOWN_BTN, HEAR_SUBMIT_BTN, ID_SUBMIT_BTN, ADD_SUBMIT_BTN,
+             ADD_FILE_BTN]

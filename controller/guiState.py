@@ -33,24 +33,18 @@ class GuiState:
                         self.hear_submit()
                     elif ID_SUBMIT_BTN.is_over((mx, my)):
                         self.download_and_play()
+                    elif UP_BTN.is_over((mx, my)):
+                        DISPLAY_UI.list_up()
+                        DISPLAY_UI.draw(self.window, True)
+                    elif DOWN_BTN.is_over((mx, my)):
+                        DISPLAY_UI.list_down()
+                        DISPLAY_UI.draw(self.window, True)
             if event.type == pygame.MOUSEMOTION:
                 for btn in BTN_GROUP:
                     if btn.is_over((mx, my)):
                         btn.button_color = btn.hover_button_color
                     else:
                         btn.button_color = btn.original_button_color
-                if HEAR_SUBMIT_BTN.is_over((mx, my)):
-                    HEAR_SUBMIT_BTN.button_color = \
-                        HEAR_SUBMIT_BTN.hover_button_color
-                else:
-                    HEAR_SUBMIT_BTN.button_color = \
-                        HEAR_SUBMIT_BTN.original_button_color
-                if ID_SUBMIT_BTN.is_over((mx, my)):
-                    ID_SUBMIT_BTN.button_color = \
-                        ID_SUBMIT_BTN.hover_button_color
-                else:
-                    ID_SUBMIT_BTN.button_color = \
-                        ID_SUBMIT_BTN.original_button_color
 
             HEAR_ZIP_INPUT.events_handling(event)
             ID_INPUT.events_handling(event)
@@ -126,18 +120,6 @@ class GuiState:
                         btn.button_color = btn.hover_button_color
                     else:
                         btn.button_color = btn.original_button_color
-                if ADD_SUBMIT_BTN.is_over((mx, my)):
-                    ADD_SUBMIT_BTN.button_color = \
-                        ADD_SUBMIT_BTN.hover_button_color
-                else:
-                    ADD_SUBMIT_BTN.button_color = \
-                        ADD_SUBMIT_BTN.original_button_color
-                if ADD_FILE_BTN.is_over((mx, my)):
-                    ADD_FILE_BTN.button_color = \
-                        ADD_FILE_BTN.hover_button_color
-                else:
-                    ADD_FILE_BTN.button_color = \
-                        ADD_FILE_BTN.original_button_color
 
             ADD_ZIP_INPUT.events_handling(event)
             ADD_TITLE_INPUT.events_handling(event)

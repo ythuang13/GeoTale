@@ -17,7 +17,9 @@ class ListDisplay:
                                    width - 3, (height // item_count) - 4)
                           for x in range(self.item_count)]
 
-        self.item_data = list()
+        self.items_data = list()
+        self.displayed_items = list()
+        self.display_counter = 0
 
     def draw(self, win, update=False):
         # draw background
@@ -41,17 +43,46 @@ class ListDisplay:
         :param data: list of data to display for the items
         :return: None
         """
-        # todo cycle list display
-        self.item_data = data
-        for i, (temp_title, temp_description) in enumerate(self.item_data):
-            if i == self.item_count:
-                break
-            self.item_list[i].title = temp_title
-            self.item_list[i].description = temp_description
+        self.items_data = data
+        self.display_counter = 0
+        self.displayed_items = self.items_data[0:self.item_count] \
+            if len(self.items_data) >= self.item_count else self.items_data[0:]
+        self.display_update()
+
+    def display_update(self):
+        for i, (item_title, item_desc) in enumerate(self.displayed_items):
+            self.item_list[i].title = item_title
+            self.item_list[i].description = item_desc
 
         for j in range(i + 1, self.item_count):
             self.item_list[j].title = ""
             self.item_list[j].description = ""
+
+    def list_up(self):
+        if self.display_counter > 0:
+            self.display_counter -= 1
+            self.displayed_items = self.items_data[self.item_count
+                                                   * self.display_counter:
+                                                   self.item_count
+                                                   + (self.item_count
+                                                      * self.display_counter)
+                                                   ] \
+                if len(self.items_data) >= self.item_count \
+                else self.items_data[self.item_count * self.display_counter:]
+            self.display_update()
+
+    def list_down(self):
+        if len(self.displayed_items) == self.item_count:
+            self.display_counter += 1
+            self.displayed_items = self.items_data[self.item_count
+                                                   * self.display_counter:
+                                                   self.item_count
+                                                   + (self.item_count
+                                                      * self.display_counter)
+                                                   ] \
+                if len(self.items_data) >= self.item_count \
+                else self.items_data[self.item_count * self.display_counter:]
+            self.display_update()
 
 
 class ListItem:
