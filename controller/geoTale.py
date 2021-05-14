@@ -52,8 +52,8 @@ class GeoTale:
         status_code = self.network.send_file(file_path)
 
         if status_code == "200":
-            self.network.send(("I", (zip_code, title, author,
-                                     description, length)))
+            self.network.send(("insert", (zip_code, title, author,
+                                          description, length)))
 
         return status_code
 
