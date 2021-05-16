@@ -279,6 +279,11 @@ class GuiState:
             elif self.state == "no_connection_menu":
                 self.no_connection_menu()
 
+            # cursor
+            mx, my = pygame.mouse.get_pos()
+            if 0 < mx < SCREEN_WIDTH - 1 and 0 < my < SCREEN_HEIGHT - 1:
+                self.window.blit(RESIZED_CURSOR, (mx, my))
+
             # final display update
             pygame.display.flip()
         except ValueError as e:

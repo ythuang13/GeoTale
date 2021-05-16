@@ -15,7 +15,7 @@ FORMAT = "utf-8"
 # gui settings
 CAPTION = "GeoTale"
 SCREEN_WIDTH, SCREEN_HEIGHT = 720, 480
-MOUSE_VISIBILITY = True
+MOUSE_VISIBILITY = False
 
 # elements setting
 MENU_X, MENU_Y = 180, 50
@@ -39,6 +39,9 @@ MENU_TITLE_SURFACE = MENU_FONT.render("GeoTale", True, BLACK)
 BACKGROUND_SURFACE = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 BACKGROUND_SURFACE.fill(BG_COLOR)
 
+# cursor
+CURSOR_SURF = pygame.image.load(path.join("asset", "cursor.png"))
+RESIZED_CURSOR = pygame.transform.scale(CURSOR_SURF, (20, 20))
 
 # gui ui elements
 # main menu

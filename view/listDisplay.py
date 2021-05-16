@@ -72,7 +72,7 @@ class ListDisplay:
             self.display_update()
 
     def list_down(self):
-        if len(self.displayed_items) == self.item_count:
+        if self.display_counter < len(self.items_data) // 5:
             self.display_counter += 1
             self.displayed_items = self.items_data[self.item_count
                                                    * self.display_counter:
