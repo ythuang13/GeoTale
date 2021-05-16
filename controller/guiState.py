@@ -54,9 +54,6 @@ class GuiState:
         for widget in HEAR_UI_GROUP:
             widget.draw(self.window)
 
-        # final display update
-        pygame.display.flip()
-
     def hear_submit(self) -> None:
         """
         Handle submit function for the hear screen.
@@ -132,9 +129,6 @@ class GuiState:
         for widget in ADD_UI_GROUP:
             widget.draw(self.window)
 
-        # final display update
-        pygame.display.flip()
-
     def add_submit(self) -> None:
         """
         Handle submit function for the add screen.
@@ -205,9 +199,6 @@ class GuiState:
         HEAR_MENU_BTN.draw(self.window)
         EXIT_MENU_BTN.draw(self.window)
 
-        # final display update
-        pygame.display.flip()
-
     def no_connection_menu(self):
         # event
         mx, my = pygame.mouse.get_pos()
@@ -236,9 +227,6 @@ class GuiState:
         text_font = pygame.font.SysFont(FONT_CHOICE, 50)
         text_surface = text_font.render("No Connection!", True, BLACK)
         self.window.blit(text_surface, (180, 200))
-
-        # final display update
-        pygame.display.flip()
 
     @staticmethod
     def add_file_selection():
@@ -290,6 +278,9 @@ class GuiState:
                 self.add_menu()
             elif self.state == "no_connection_menu":
                 self.no_connection_menu()
+
+            # final display update
+            pygame.display.flip()
         except ValueError as e:
             root = tkinter.Tk()
             root.withdraw()
