@@ -10,11 +10,21 @@ properties are stored on an AWS-hosted server. Story properties (zip code, autho
 stored in a SQL server. Users are to be able to upload a file, see what files are on the server, and download files to play them
 on their local machine.
 
-## Areas for feedback:
+## Version 2 change log:
 
-1. The GUI: Is the GUI easy to navigate? How else should the GUI be improved?
-2. Readability: Is the program easy to use and intuitive? Is its purpose clearly communicated?
-3. Functional requirements: Is what is displayed to the user (file length, description, etc.) not enough, too much, or
-   just enough information? Should some properties be hidden? What else would help for a user to be able to use
-   the program?
+1. Added custom cursor
+2. update home button
+3. refactor server.py
+4. refactor guiState.py
+5. update README.md
+6. add requirements.txt
+7. flip through list display with up and down button
+8. remove tqdm library (progerss bar)
+9. handle value error from data validation
+10. display error with a pop up window
+11. limit field length for data entry
+12. handle lost connection
+13. display no connection page
+14. after insertion, jump back to menu
+15. query all story by submit empty zip code for search
    
